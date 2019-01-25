@@ -40,7 +40,7 @@ for i in np.nditer(grille):
 
 eclairementMoyen = np.average(eclairementTotal)
 
-fluctuation = eclairementTotal/eclairementMoyen
+fluctuation = eclairementTotal - eclairementMoyen
 
 # Création d'une figure matplotlib
 fig1 = plt.figure()
