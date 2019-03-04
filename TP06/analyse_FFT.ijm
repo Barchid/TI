@@ -18,7 +18,7 @@ coordRaieSec1 = rechercheMaxEtMaj();
 
 print("\nCalcul de la raie secondaire 2 :");
 coordRaieSec2 = rechercheMaxEtMaj();
-
+print("\n");
 // si les coordonnées en X des deux raies secondaires = 0, alors on est dans une texture verticale.
 if(coordRaieSec1[0] == 0 && coordRaieSec2[0] == 0) {
 	print("Classe : VERTICALE");
