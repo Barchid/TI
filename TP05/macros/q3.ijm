@@ -26,7 +26,7 @@ for (i=0; i<bins; i++) {
     // au niveau de gris calculé
     histogrammeCumule[i] = n;
 }
-Plot.create("Histogramme cumulé initial", "Pixel value", "Cumulated count", values, histogrammeCumule);
+//Plot.create("Histogramme cumulé initial", "Pixel value", "Cumulated count", values, histogrammeCumule);
 
 W = getWidth();
 H = getHeight();
@@ -54,7 +54,7 @@ for(j=0; j<H; j++)
 
 // calcul de l'histogramme transformé
 getHistogram(values, counts, bins)
-Plot.create("Histogramme normalisé", "Pixel value", "Count", values, counts);
+Plot.create("Histogramme normalisé de l'image résultante", "Pixel value", "Count", values, counts);
 n = 0;
 // calcul de l'histogramme cumulé du résultat
 for (i=0; i<bins; i++) {
@@ -64,4 +64,5 @@ for (i=0; i<bins; i++) {
     // au niveau de gris calculé
     histogrammeCumule[i] = n;
 }
-Plot.create("Histogramme cumulé après transformation", "Pixel value", "Cumulated count", values, histogrammeCumule);
+
+//Plot.create("Histogramme cumulé après transformation", "Pixel value", "Cumulated count", values, histogrammeCumule);
