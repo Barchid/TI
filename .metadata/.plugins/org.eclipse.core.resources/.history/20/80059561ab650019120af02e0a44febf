@@ -1,0 +1,39 @@
+import ij.*;
+import ij.plugin.filter.*;
+import ij.process.*;
+import ij.gui.*;
+
+public class ComputeCfa implements PlugInFilter {
+	ImagePlus imp; // Fenêtre contenant l'image de référence
+	int width; // Largeur de la fenêtre
+	int height; // Hauteur de la fenêtre
+
+	public int setup(String arg, ImagePlus imp) {
+		/* à compléter */}
+
+	public void run(ImageProcessor ip) {
+
+		// Lecture des dimensions de la fenêtre
+		width = imp.getWidth();
+		height = imp.getHeight();
+
+		// Dispositions possibles pour le CFA
+		String[] orders = { "R-G-R", "B-G-B", "G-R-G", "G-B-G" };
+
+		// Définition de l'interface
+		GenericDialog dia = new GenericDialog("Génération de l'image CFA...", IJ.getInstance());
+		dia.addChoice("Début de première ligne :", orders, orders[2]);
+		dia.showDialog();
+
+		// Lecture de la réponse de l'utilisateur
+		if (dia.wasCanceled())
+			return;
+		int order = dia.getNextChoiceIndex();
+
+		// Génération de l'image CFA
+		/* à compléter */
+	}
+
+	ImageProcessor cfa(int row_order) {
+		/* cf. ci-dessous */} // Génère l'image CFA
+}

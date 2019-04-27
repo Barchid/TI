@@ -1,5 +1,5 @@
 // Calcul de la norme du gradient par masque de Sobel
-//run("Close All");
+run("Close All");
 requires("1.41i");	// requis par substring(string, index)
 setBatchMode(true);	// false pour déboguer
 /****** Création des images ******/
@@ -36,12 +36,12 @@ derivY = getImageID();
 
 // Convolution avec le filtre de sobel Hx
 selectImage(derivNormX);
-run("Convolve...", "text1=[-1 0 1\n-2 0 2\n-1 0 1\n]");
+run("Convolve...", "text1=[-1 0 1\n-2 0 2\n-1 0 1\n] normalize");
 run("Square");
 
 // Convolution avec le filtre de sobel Hy
 selectImage(derivNormY);
-run("Convolve...", "text1=[-1 -2 -1\n0 0 0\n1 2 1\n]");
+run("Convolve...", "text1=[-1 -2 -1\n0 0 0\n1 2 1\n] normalize");
 run("Square");
 
 // Calculer la norme du gradient dans une nouvelle image
@@ -60,11 +60,11 @@ close();
  */
 // Convolution avec le filtre de Sobel HX
 selectImage(derivX);
-run("Convolve...", "text1=[-1 0 1\n-2 0 2\n-1 0 1\n]");
+run("Convolve...", "text1=[-1 0 1\n-2 0 2\n-1 0 1\n] normalize");
 
 // Convolution avec le filtre de sobel Hy
 selectImage(derivY);
-run("Convolve...", "text1=[-1 -2 -1\n0 0 0\n1 2 1\n]");
+run("Convolve...", "text1=[-1 -2 -1\n0 0 0\n1 2 1\n] normalize");
 
 // Calcul de la direction du vecteur gradient :
 for (i = 0; i < w; i++) {
@@ -79,22 +79,26 @@ for (i = 0; i < w; i++) {
 
 		// calculer direction pour le pixel
 		selectImage(directionGradient);
-		val = atan2(py, px) * 180/PI; // application de la formule
+		val = atan2(py, px) * (180/PI); // application de la formule
 		setPixel(i, j, val);
 	}
 }
 
 selectImage(derivX);
-close();
+//close();
 selectImage(derivY);
-close();
+//close();
+
+selectImage(sourceImage);
+run("Duplicate...", "title=maximaLocaux");
+maximaLocaux = getImageID();
 
 for (x = 0; x < w; x++) {
 	for (y = 0; y < h; y++) {
 		// Arrondir la direction du gradient au multiple de 45° le plus proche
 		selectImage(directionGradient);
 		theta = getPixel(x, y);
-		theta = round(theta / 45) * 45;
+		theta = round((theta / 45)) * 45;
 
 		selectImage(gradNorm);
 		p = getPixel(x, y);
@@ -120,8 +124,11 @@ for (x = 0; x < w; x++) {
 			p2 = getPixel(x+1, y+1);
 		}
 
+		selectImage(maximaLocaux);
 		if(p < p1 || p < p2) {
 			setPixel(x, y, 0);
+		} else {
+			setPixel(x, y, p);
 		}
 	}
 }

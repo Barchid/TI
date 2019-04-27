@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;masqueLog&apos; in &apos;Laplacien_.run(...)&apos; to &apos;masque&apos;&#x0D;&#x0A;- Original project: &apos;TESTPlugin_&apos;&#x0D;&#x0A;- Original element: &apos;Laplacien_.run(ImageProcessor).masqueLog&apos;&#x0D;&#x0A;- Renamed element: &apos;masqueLog&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;masqueLog&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src&lt;{Laplacien_.java[Laplacien_~run~QImageProcessor;@masqueLog!1993!2017!2001!2009!\[F!0!false" name="masque" references="true" stamp="1555883877560" version="1.0"/>
+</session>

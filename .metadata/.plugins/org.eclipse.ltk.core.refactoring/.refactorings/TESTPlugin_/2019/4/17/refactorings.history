@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;ComputeCfa&apos; to &apos;ComputeCfa_&apos;&#x0D;&#x0A;- Original project: &apos;TESTPlugin_&apos;&#x0D;&#x0A;- Original element: &apos;ComputeCfa&apos;&#x0D;&#x0A;- Renamed element: &apos;ComputeCfa_&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;ComputeCfa&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;{ComputeCfa.java[ComputeCfa" matchStrategy="1" name="ComputeCfa_" qualified="false" references="true" similarDeclarations="false" stamp="1556013046772" textual="false" version="1.0"/>
+</session>

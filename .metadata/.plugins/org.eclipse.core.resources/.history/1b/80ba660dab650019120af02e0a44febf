@@ -1,0 +1,19 @@
+import ij.*;
+import ij.plugin.filter.*;
+import ij.process.*;
+import ij.gui.*;
+
+public class ComputeCfa implements PlugInFilter {
+	ImagePlus imp; // Fenêtre contenant l'image de référence
+	int width; // Largeur de la fenêtre
+	int height; // Hauteur de la fenêtre
+
+	public int setup(String arg, ImagePlus imp) {
+		/* à compléter */}
+
+	public void run(ImageProcessor ip) {
+		/* cf. ci-dessous */}
+
+	ImageProcessor cfa(int row_order) {
+		/* cf. ci-dessous */} // Génère l'image CFA
+}

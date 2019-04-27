@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="ij.process.ByteProcessor"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="ij.plugin.filter.PlugInFilter"/>
+<fullyQualifiedTypeName name="ij.process.ImageProcessor"/>
+<fullyQualifiedTypeName name="ij.ImagePlus"/>
+</qualifiedTypeNameHistroy>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="WorkbenchPreferenceDialogSettings">
+		<item value="531" key="DIALOG_X_ORIGIN"/>
+		<item value="141" key="DIALOG_Y_ORIGIN"/>
+	</section>
+	<section name="org.eclipse.ui.internal.QuickAccess">
+		<item value="734" key="dialogHeight"/>
+		<item value="1260" key="dialogWidth"/>
+		<list key="textEntries">
+		</list>
+		<list key="orderedElements">
+		</list>
+		<list key="orderedProviders">
+		</list>
+		<list key="textArray">
+		</list>
+	</section>
+	<section name="FileSystemExportWizard">
+		<item value="false" key="WizardFileSystemResourceExportPage1.STORE_OVERWRITE_EXISTING_FILES_ID"/>
+		<item value="false" key="WizardFileSystemResourceExportPage1.STORE_CREATE_STRUCTURE_ID"/>
+		<list key="WizardFileSystemResourceExportPage1.STORE_DESTINATION_NAMES_ID">
+			<item value="c:\toto2"/>
+		</list>
+	</section>
+	<section name="InstallationDialogSettings">
+		<item value="1043" key="DIALOG_WIDTH"/>
+		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
+		<item value="743" key="DIALOG_HEIGHT"/>
+		<item value="495" key="DIALOG_X_ORIGIN"/>
+		<item value="16" key="DIALOG_Y_ORIGIN"/>
+	</section>
+	<section name="ImportExportAction">
+		<item value="org.eclipse.ui.wizards.export.Preferences" key="ImportExportPage.STORE_SELECTED_EXPORT_WIZARD_ID"/>
+		<list key="ImportExportPage.STORE_EXPANDED_EXPORT_CATEGORIES">
+			<item value="org.eclipse.ui.Basic"/>
+		</list>
+	</section>
+	<section name="PreferencesExportWizard">
+		<item value="c:\temp\ImageJ.prefs" key=""/>
+		<item value="false" key="WizardPreferencesExportPage1.STORE_OVERWRITE_EXISTING_FILES_ID"/>
+		<item value="true" key="WizardPreferencesExportPage1.EXPORT_ALL_PREFERENCES_ID"/>
+		<list key="WizardPreferencesExportPage1.STORE_DESTINATION_NAMES_ID">
+			<item value="c:\temp\ImageJ.prefs"/>
+		</list>
+	</section>
+	<section name="ZipFileExportWizard">
+		<item value="true" key="WizardZipFileResourceExportPage1.STORE_COMPRESS_CONTENTS_ID"/>
+		<item value="true" key="WizardZipFileResourceExportPage1.STORE_CREATE_STRUCTURE_ID"/>
+		<list key="WizardZipFileResourceExportPage1.STORE_DESTINATION_NAMES_ID">
+			<item value="C:\temp\ImageJ.zip"/>
+			<item value="C:\ImageJ.zip"/>
+			<item value="ImageJ.zip"/>
+		</list>
+	</section>
+</section>
