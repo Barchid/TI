@@ -17,7 +17,7 @@ abstract public class DCT2D {
 
 		// Traiter les lignes
 		for (int y = roi.y; y < (roi.y + roi.height); y++) {
-			double[] line = fp.getLine(roi.x, y, roi.x + roi.width - 1, y);
+			double[] line = fp.getLine(roi.x, y, roi.x + roi.width, y);
 			double[] lineDCT = DCT1D.forwardDCT(line);
 			for (int x = 0; x < lineDCT.length; x++) {
 				fp.putPixelValue(roi.x + x, y, lineDCT[x]);
@@ -26,7 +26,7 @@ abstract public class DCT2D {
 
 		// Traiter les colonnes de l'image résultant du traitement des lignes
 		for (int x = roi.x; x < (roi.x + roi.width); x++) {
-			double[] col = fp.getLine(x, roi.y, x, roi.y + roi.height - 1);
+			double[] col = fp.getLine(x, roi.y, x, roi.y + roi.height);
 			double[] colDCT = DCT1D.forwardDCT(col);
 			for (int y = 0; y < colDCT.length; y++) {
 				fp.putPixelValue(x, roi.y + y, colDCT[y]);
@@ -46,8 +46,9 @@ abstract public class DCT2D {
 		
 		// Traiter les lignes
 		for (int y = roi.y; y < (roi.y + roi.height); y++) {
-			double[] lineDCT = fp.getLine(roi.x, y, roi.x + roi.width - 1, y);
+			double[] lineDCT = fp.getLine(roi.x, y, roi.x + roi.width, y);
 			double[] line = DCT1D.inverseDCT(lineDCT);
+			IJ.log(lineDCT.length);
 			for (int x = 0; x < line.length; x++) {
 				fp.putPixelValue(roi.x + x, y, line[x]);
 			}
@@ -55,7 +56,7 @@ abstract public class DCT2D {
 
 		// Traiter les colonnes de l'image résultant du traitement des lignes
 		for (int x = roi.x; x < (roi.x + roi.width); x++) {
-			double[] colDCT = fp.getLine(x, roi.y, x, roi.y + roi.height - 1);
+			double[] colDCT = fp.getLine(x, roi.y, x, roi.y + roi.height);
 			double[] col = DCT1D.inverseDCT(colDCT);
 			for (int y = 0; y < col.length; y++) {
 				fp.putPixelValue(x, roi.y + y, col[y]);

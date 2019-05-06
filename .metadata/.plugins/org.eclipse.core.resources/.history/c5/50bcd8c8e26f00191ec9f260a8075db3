@@ -54,10 +54,10 @@ public class DCTBlocs_ implements PlugInFilter {
 		for (int x = 0; x < fp.getWidth(); x += BLOCK_SIZE) {
 			for (int y = 0; y < fp.getHeight(); y += BLOCK_SIZE) {
 				inv.setRoi(x, y, BLOCK_SIZE, BLOCK_SIZE);
+				IJ.log("YOLO" + inv.getRoi().x);
 				DCT2D.inverseDCT((FloatProcessor) inv);
 			}
 		}
-		inv.resetRoi(); // reset ROI pour ajouter 128
 		inv.add(128);
 		ImagePlus inverse = new ImagePlus("Inverse (debug)", inv.convertToByte(false));
 		inverse.show();
@@ -70,13 +70,13 @@ public class DCTBlocs_ implements PlugInFilter {
 		for (int x = 0; x < fp.getWidth(); x += BLOCK_SIZE) {
 			for (int y = 0; y < fp.getHeight(); y += BLOCK_SIZE) {
 				// Diviser par la matricce de quantification pour la luminance
-				 quanti.copyBits(bpQuantification, x, y, Blitter.DIVIDE);
+				// quanti.copyBits(bpQuantification, x, y, Blitter.DIVIDE);
 
 				// Arrondir à l'entier la division entre le bloc et la matrice de quantification
 				// pour la lumi'
 				for (int i = 0; i < BLOCK_SIZE; i++) {
 					for (int j = 0; j < BLOCK_SIZE; j++) {
-						quanti.putPixelValue(x + i, y + j, Math.round(quanti.getPixelValue(x + i, y + j)));
+						quanti.putPixelValue(x + i, y + j, Math.round(quanti.getPixelValue(x + i, y + j) / QY[i][j]));
 					}
 				}
 			}
@@ -92,7 +92,12 @@ public class DCTBlocs_ implements PlugInFilter {
 		for (int x = 0; x < fp.getWidth(); x += BLOCK_SIZE) {
 			for (int y = 0; y < fp.getHeight(); y += BLOCK_SIZE) {
 				// multiplier par la matricce de quantification pour la luminance
-				decomp.copyBits(bpQuantification, x, y, Blitter.MULTIPLY);
+//				decomp.copyBits(bpQuantification, x, y, Blitter.MULTIPLY);
+				for (int i = 0; i < BLOCK_SIZE; i++) {
+					for (int j = 0; j < BLOCK_SIZE; j++) {
+						decomp.putPixelValue(x + i, y + j, decomp.getPixelValue(x + i, y + j) * QY[i][j]);
+					}
+				}
 			}
 		}
 
@@ -106,7 +111,6 @@ public class DCTBlocs_ implements PlugInFilter {
 
 		// 3) Ajouter 128 pour visualiser l'image décompressée (on remet sur un
 		// intervalle [0,255]
-		decomp.resetRoi(); // reset ROI pour ajouter 128
 		decomp.add(128);
 
 		ImagePlus decompression = new ImagePlus("Décompression", decomp.convertToByte(false));

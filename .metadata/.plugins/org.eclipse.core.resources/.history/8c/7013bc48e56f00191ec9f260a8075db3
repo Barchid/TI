@@ -48,6 +48,7 @@ abstract public class DCT2D {
 		for (int y = roi.y; y < (roi.y + roi.height); y++) {
 			double[] lineDCT = fp.getLine(roi.x, y, roi.x + roi.width - 1, y);
 			double[] line = DCT1D.inverseDCT(lineDCT);
+			IJ.log(lineDCT.length + "");
 			for (int x = 0; x < line.length; x++) {
 				fp.putPixelValue(roi.x + x, y, line[x]);
 			}
