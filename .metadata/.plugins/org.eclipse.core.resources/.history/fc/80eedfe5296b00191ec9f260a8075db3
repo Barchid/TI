@@ -1,0 +1,34 @@
+import ij.ImagePlus;
+import ij.ImageStack;
+import ij.plugin.filter.PlugInFilter;
+import ij.process.ImageProcessor;
+
+public class DCTPlug_ implements PlugInFilter{
+	ImagePlus imp; // Fenêtre contenant l'image de référence
+	int width; // Largeur de la fenêtre
+	int height; // Hauteur de la fenêtre
+
+	// Initialisation du plugin
+	public int setup(String arg, ImagePlus imp) {
+		this.imp = imp;
+		return PlugInFilter.DOES_8G;
+	}
+
+	public void run(ImageProcessor ip) {
+
+		// Lecture des dimensions de la fenêtre
+		width = imp.getWidth();
+		height = imp.getHeight();
+
+		// Calcul des échantillons de chaque composante de l'image CFA via HA97
+		ImageStack samples_stack = imp.createEmptyStack();
+		samples_stack.addSlice("rouge", plan_rouge); // Composante R
+		samples_stack.addSlice("vert", plan_vert);// Composante G
+		samples_stack.addSlice("bleu", plan_bleu); // Composante B
+
+		// Création de l'image résultat
+		ImagePlus cfa_samples_imp = imp.createImagePlus();
+		cfa_samples_imp.setStack("Échantillons couleur via Hamilton avec CFA G-R-G", samples_stack);
+		cfa_samples_imp.show();
+	}
+}

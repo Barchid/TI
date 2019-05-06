@@ -1,0 +1,158 @@
+import ij.ImagePlus;
+import ij.ImageStack;
+import ij.plugin.filter.Convolver;
+import ij.plugin.filter.PlugInFilter;
+import ij.process.ByteProcessor;
+import ij.process.ImageProcessor;
+
+public class DematHa_ implements PlugInFilter {
+	ImagePlus imp; // Fenêtre contenant l'image de référence
+	int width; // Largeur de la fenêtre
+	int height; // Hauteur de la fenêtre
+
+	// Initialisation du plugin
+	public int setup(String arg, ImagePlus imp) {
+		this.imp = imp;
+		return PlugInFilter.DOES_8G;
+	}
+
+	public void run(ImageProcessor ip) {
+
+		// Lecture des dimensions de la fenêtre
+		width = imp.getWidth();
+		height = imp.getHeight();
+
+	}
+
+	/**
+	 * Calcul le plan G par la méthode HA97 (Hamilton et Adams)
+	 * 
+	 * @param cfa_ip
+	 * @return
+	 */
+	public ImageProcessor est_G_hamilton(ImageProcessor cfa_ip) {
+		ImageProcessor est_ip = cfa_ip.duplicate();
+		int height = cfa_ip.getHeight();
+		int width = cfa_ip.getWidth();
+
+		for (int x = 2; x < width; x++) {
+			for (int y = 2; y < height; y++) {
+				int pixel = cfa_ip.getPixel(x,y)&0xff;
+				int pixel_g = cfa_ip.getPixel(x-1,y)&0xff;
+				int pixel_g_g = cfa_ip.getPixel(x-2,y)&0xff;
+				int pixel_d = cfa_ip.getPixel(x+1,y)&0xff;
+				int pixel_d_d = cfa_ip.getPixel(x+2,y)&0xff;
+				int pixel_h = cfa_ip.getPixel(x,y-1)&0xff;
+				int pixel_h_h = cfa_ip.getPixel(x,y-2)&0xff;
+				int pixel_b = cfa_ip.getPixel(x,y+1)&0xff;
+				int pixel_b_b = cfa_ip.getPixel(x,y+2)&0xff;
+				
+				// calcul du gradient horizontal
+				int deltaX = Math.abs()
+				// calcul du gradient vertical
+				
+				// SI Δx < Δy
+				
+				// SI Δx > Δy
+				
+				// SI SI Δx = Δy
+				
+				
+			}
+		}
+		return (est_ip);
+	}
+
+	/**
+	 * Calcul le plan R par interpolation bilinéaire
+	 * 
+	 * @param ip
+	 * @return
+	 */
+	public ImageProcessor planR(ImageProcessor ip) {
+		// Déclaration d'un noyau et d'un objet Convolver pour la convolution
+		float[] kernel = { 1, 2, 1, 2, 4, 2, 1, 2, 1 };
+		for (int i = 0; i < kernel.length; i++) {
+			kernel[i] = kernel[i] / 4;
+		}
+		ImageProcessor red = cfa_samples(ip, 0);
+		Convolver conv = new Convolver();
+		conv.setNormalize(false); // SANS normalisation (par défaut, convolve() normalise)
+		// Composante R estimée par interpolation bilinéaire grâce à la convolution
+		conv.convolve(red, kernel, 3, 3);
+		return red;
+	}
+
+	/**
+	 * Calcul le plan B par interpolation bilinéaire
+	 * 
+	 * @param ip
+	 * @return
+	 */
+	public ImageProcessor planB(ImageProcessor ip) {
+		// Déclaration d'un noyau et d'un objet Convolver pour la convolution
+		float[] kernel = { 1, 2, 1, 2, 4, 2, 1, 2, 1 };
+		for (int i = 0; i < kernel.length; i++) {
+			kernel[i] = kernel[i] / 4;
+		}
+		ImageProcessor blue = cfa_samples(ip, 2);
+		Convolver conv = new Convolver();
+		conv.setNormalize(false); // SANS normalisation (par défaut, convolve() normalise)
+		// Composante R estimée par interpolation bilinéaire grâce à la convolution
+		conv.convolve(blue, kernel, 3, 3);
+		return blue;
+	}
+
+	/**
+	 * Retourne, à partir de l'image CFA en paramètre "cfa_ip", l'image en niveaux
+	 * de gris sur 8 bits correspondant au plan φrouge, φvert ou φbleu suivant la
+	 * valeur de k
+	 * 
+	 * @param cfa_ip l'image CFA utilisée pour le calcul
+	 * @param k      un entier représentant la composante (rouge, vert ou bleu)
+	 *               utilisée pour calculer le bon φk
+	 * @return l'image φk
+	 */
+	public ImageProcessor cfa_samples(ImageProcessor cfa_ip, int k) {
+		width = cfa_ip.getWidth();
+		height = cfa_ip.getHeight();
+
+		// Création de l'image à retourner
+		ImageProcessor phi = new ByteProcessor(width, height);
+
+		// SI φR
+		if (k == 0) {
+			// Ajout des niveaux de rouge
+			for (int x = 1; x < width; x = x + 2) {
+				for (int y = 0; y < height; y = y + 2) {
+					phi.putPixel(x, y, cfa_ip.getPixel(x, y));
+				}
+			}
+		}
+		// SI φV
+		else if (k == 1) {
+			// Ajout des niveaux de rouge
+			for (int x = 0; x < width; x = x + 2) {
+				for (int y = 0; y < height; y = y + 2) {
+					phi.putPixel(x, y, cfa_ip.getPixel(x, y));
+				}
+			}
+
+			for (int x = 1; x < width; x = x + 2) {
+				for (int y = 1; y < height; y = y + 2) {
+					phi.putPixel(x, y, cfa_ip.getPixel(x, y));
+				}
+			}
+		}
+		// SI φB
+		else {
+			for (int x = 0; x < width; x = x + 2) {
+				for (int y = 1; y < height; y = y + 2) {
+					phi.putPixel(x, y, cfa_ip.getPixel(x, y));
+				}
+			}
+		}
+
+		return phi;
+	}
+}

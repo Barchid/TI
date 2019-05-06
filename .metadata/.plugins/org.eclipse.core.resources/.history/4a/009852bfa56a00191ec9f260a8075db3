@@ -1,0 +1,90 @@
+import ij.IJ;
+import ij.ImagePlus;
+import ij.ImageStack;
+import ij.gui.GenericDialog;
+import ij.plugin.filter.PlugInFilter;
+import ij.process.ByteProcessor;
+import ij.process.ImageProcessor;
+
+public class SampleCfa_ implements PlugInFilter {
+	ImagePlus imp; // Fenêtre contenant l'image de référence
+	int width; // Largeur de la fenêtre
+	int height; // Hauteur de la fenêtre
+
+	// Initialisation du plugin
+	public int setup(String arg, ImagePlus imp) {
+		this.imp = imp;
+		return PlugInFilter.DOES_8G;
+	}
+
+	public void run(ImageProcessor ip) {
+
+		// Lecture des dimensions de la fenêtre
+		width = imp.getWidth();
+		height = imp.getHeight();
+
+		// Calcul des échantillons de chaque composante de l'image CFA
+		ImageStack  samples_stack = imp.createEmptyStack();
+		samples_stack.addSlice("rouge", cfa_samples(ip,0));	// Composante R
+		samples_stack.addSlice("vert", cfa_samples(ip,1));// Composante G
+		samples_stack.addSlice("bleu", cfa_samples(ip,2));	// Composante B
+
+		// Création de l'image résultat
+		ImagePlus cfa_samples_imp = imp.createImagePlus();
+		cfa_samples_imp.setStack("Échantillons couleur CFA", samples_stack);
+		cfa_samples_imp.show();
+	}
+
+	/**
+	 * Retourne, à partir de l'image CFA en paramètre "cfa_ip", l'image en niveaux
+	 * de gris sur 8 bits correspondant au plan φrouge, φvert ou φbleu suivant la
+	 * valeur de k
+	 * 
+	 * @param cfa_ip l'image CFA utilisée pour le calcul
+	 * @param k      un entier représentant la composante (rouge, vert ou bleu)
+	 *               utilisée pour calculer le bon φk
+	 * @return l'image φk
+	 */
+	public ImageProcessor cfa_samples(ImageProcessor cfa_ip, int k) {
+		width = cfa_ip.getWidth();
+		height = cfa_ip.getHeight();
+
+		// Création de l'image à retourner
+		ImageProcessor phi = new ByteProcessor(width, height);
+
+		// SI φR
+		if (k == 0) {
+			// Ajout des niveaux de rouge
+			for (int x = 1; x < width; x = x + 2) {
+				for (int y = 0; y < height; y = y + 2) {
+					phi.putPixel(x, y, cfa_ip.getPixel(x, y));
+				}
+			}
+		}
+		// SI φV
+		else if (k == 1) {
+			// Ajout des niveaux de rouge
+			for (int x = 0; x < width; x = x + 2) {
+				for (int y = 0; y < height; y = y + 2) {
+					phi.putPixel(x, y, cfa_ip.getPixel(x, y));
+				}
+			}
+
+			for (int x = 1; x < width; x = x + 2) {
+				for (int y = 1; y < height; y = y + 2) {
+					phi.putPixel(x, y, cfa_ip.getPixel(x, y));
+				}
+			}
+		}
+		// SI φB
+		else {
+			for (int x = 0; x < width; x = x + 2) {
+				for (int y = 1; y < height; y = y + 2) {
+					phi.putPixel(x, y, cfa_ip.getPixel(x, y));
+				}
+			}
+		}
+
+		return phi;
+	}
+}

@@ -1,0 +1,5 @@
+import ij.plugin.filter.PlugInFilter;
+
+public class DematHa_ implements PlugInFilter {
+
+}

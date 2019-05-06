@@ -1,0 +1,41 @@
+import ij.ImagePlus;
+import ij.ImageStack;
+import ij.plugin.filter.PlugInFilter;
+import ij.process.ByteProcessor;
+import ij.process.FloatProcessor;
+import ij.process.ImageProcessor;
+
+public class DCTPlug_ implements PlugInFilter {
+	ImagePlus imp; // Fenêtre contenant l'image de référence
+	int width; // Largeur de la fenêtre
+	int height; // Hauteur de la fenêtre
+
+	// Initialisation du plugin
+	public int setup(String arg, ImagePlus imp) {
+		this.imp = imp;
+		return PlugInFilter.DOES_8G;
+	}
+
+	public void run(ImageProcessor ip) {
+
+		// Lecture des dimensions de la fenêtre
+		width = imp.getWidth();
+		height = imp.getHeight();
+
+		//
+	}
+
+	/**
+	 * Centre les valeurs de niveaux de gris de l'image en paramètre en soustrayant
+	 * 128 partout
+	 * 
+	 * @param bp l'image à ccentrer
+	 */
+	public void soustraire128(ByteProcessor bp) {
+		for (int x = 0; x < bp.getWidth(); x++) {
+			for (int y = 0; y < bp.getHeight(); y++) {
+				bp.putPixel(x, y, bp.getPixel(x, y));
+			}
+		}
+	}
+}

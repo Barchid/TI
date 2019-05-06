@@ -1,0 +1,66 @@
+import ij.IJ;
+import ij.ImagePlus;
+import ij.gui.GenericDialog;
+import ij.plugin.filter.PlugInFilter;
+import ij.process.ImageProcessor;
+
+public class SampleCfa_ implements PlugInFilter {
+	ImagePlus imp; // Fenêtre contenant l'image de référence
+	int width; // Largeur de la fenêtre
+	int height; // Hauteur de la fenêtre
+
+	// Initialisation du plugin
+	public int setup(String arg, ImagePlus imp) {
+		this.imp = imp;
+		return PlugInFilter.DOES_8G;
+	}
+
+	public void run(ImageProcessor ip) {
+
+		// Lecture des dimensions de la fenêtre
+		width = imp.getWidth();
+		height = imp.getHeight();
+
+		// Dispositions possibles pour le CFA
+		String[] orders = { "R-G-R", "B-G-B", "G-R-G", "G-B-G" };
+
+		// Définition de l'interface
+		GenericDialog dia = new GenericDialog("Génération de l'image CFA...", IJ.getInstance());
+		dia.addChoice("Début de première ligne :", orders, orders[2]);
+		dia.showDialog();
+
+		// Lecture de la réponse de l'utilisateur
+		if (dia.wasCanceled())
+			return;
+		int order = dia.getNextChoiceIndex();
+	}
+
+	/**
+	 * Retourne, à partir de l'image CFA en paramètre "cfa_ip", l'image en niveaux
+	 * de gris sur 8 bits correspondant au plan φrouge, φvert ou φbleu suivant la
+	 * valeur de k
+	 * 
+	 * @param cfa_ip l'image CFA utilisée pour le calcul
+	 * @param k      un entier représentant la composante (rouge, vert ou bleu)
+	 *               utilisée pour calculer le bon φk
+	 * @return l'image φk
+	 */
+	public ImageProcessor cfa_samples(ImageProcessor cfa_ip, int k) {
+		// SI φR
+		if (k == 0) {
+			for (int x = 0; x < width; x++) {
+				for (int y = 0; y < height; y++) {
+					
+				}
+			}
+		}
+		// SI φV
+		else if (k == 1) {
+
+		}
+		// SI φB
+		else {
+
+		}
+	}
+}

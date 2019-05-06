@@ -1,0 +1,49 @@
+import ij.ImagePlus;
+import ij.plugin.filter.PlugInFilter;
+import ij.process.ByteProcessor;
+import ij.process.FloatProcessor;
+import ij.process.ImageProcessor;
+
+public class DCTBlocs_ implements PlugInFilter {
+	ImagePlus imp; // Fenêtre contenant l'image de référence
+	int width; // Largeur de la fenêtre
+	int height; // Hauteur de la fenêtre
+	private static final int BLOCK_SIZE = 8;
+
+	// Matrice de quantification pour la luminance (colonne par colonne)
+	public final static int[][] QY = { { 16, 12, 14, 14, 18, 24, 49, 72 }, { 11, 12, 13, 17, 22, 35, 64, 92 },
+			{ 10, 14, 16, 22, 37, 55, 78, 95 }, { 16, 19, 24, 29, 56, 64, 87, 98 },
+			{ 24, 26, 40, 51, 68, 81, 103, 112 }, { 40, 58, 57, 87, 109, 104, 121, 100 },
+			{ 51, 60, 69, 80, 103, 113, 120, 103 }, { 61, 55, 56, 62, 77, 92, 101, 99 } };
+	
+	// Image stockant la matrice de quantification pour la luminance (QY)
+	// Elle va servir diviser la DCT 2D pour chaque ROI
+	private static ByteProcessor bpQuantification = new ByteProcessor(BLOCK_SIZE, BLOCK_SIZE);
+
+	// Initialisation du plugin
+	public int setup(String arg, ImagePlus imp) {
+		this.imp = imp;
+		return PlugInFilter.DOES_8G;
+	}
+
+	@Override
+	public void run(ImageProcessor ip) {
+		bpQuantification.setIntArray(QY);   // initialisation
+		ImageProcessor fp = ip.duplicate().convertToFloat();
+
+		// Centrer les valeurs de niveaux de gris
+		fp.add(-128);
+
+		// POUR CHAQUE [bloc 8x8]
+		for (int x = 0; x < fp.getWidth(); x += 8) {
+			for (int y = 0; y < fp.getHeight(); y += 8) {
+				fp.setRoi(x, y, BLOCK_SIZE, BLOCK_SIZE);
+				DCT2D.forwardDCT((FloatProcessor) fp);
+			}
+		}
+
+		ImagePlus dct2d = new ImagePlus("DCT2D", fp);
+		dct2d.show();
+	}
+
+}

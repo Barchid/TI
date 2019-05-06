@@ -1,0 +1,32 @@
+import ij.process.*;	// Pour classe Float Processor
+
+abstract public class DCT2D {
+	
+	// ---------------------------------------------------------------------------------
+	/**
+	 * Transformation DCT 2D directe (méthode de classe) utilisant la séparabilité
+	 * @param fp Signal 2D d'entrée et de sortie (MxN) (FloatProcessor)
+	 */ 
+	public static void forwardDCT(FloatProcessor fp) {
+		
+		// Traiter les lignes
+		/* à compléter */
+		
+		// Traiter les colonnes de l'image résultant du traitement des lignes
+		/* à compléter */
+	}
+
+	// ---------------------------------------------------------------------------------
+	/**
+	 * Transformation DCT 2D inverse (méthode de classe)
+	 * @param fp Signal 2D d'entrée et de sortie (FloatProcessor)
+	 */
+	public static void inverseDCT(FloatProcessor fp) {
+
+		// Traiter les lignes
+		/* à compléter */
+		
+		// Traiter les colonnes de l'image résultant du traitement des lignes
+		/* à compléter */
+	}
+}

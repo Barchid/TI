@@ -1,0 +1,27 @@
+import ij.ImagePlus;
+import ij.ImageStack;
+import ij.plugin.filter.PlugInFilter;
+import ij.process.ImageProcessor;
+
+public class DCTPlug_ implements PlugInFilter{
+	ImagePlus imp; // Fenêtre contenant l'image de référence
+	int width; // Largeur de la fenêtre
+	int height; // Hauteur de la fenêtre
+
+	// Initialisation du plugin
+	public int setup(String arg, ImagePlus imp) {
+		this.imp = imp;
+		return PlugInFilter.DOES_8G;
+	}
+
+	public void run(ImageProcessor ip) {
+
+		// Lecture des dimensions de la fenêtre
+		width = imp.getWidth();
+		height = imp.getHeight();
+
+		// Calcul des échantillons de chaque composante de l'image CFA via HA97
+
+		// Création de l'image résultat
+	}
+}

@@ -1,0 +1,36 @@
+import ij.ImagePlus;
+import ij.plugin.filter.PlugInFilter;
+import ij.process.FloatProcessor;
+import ij.process.ImageProcessor;
+
+public class DCTBlocs_ implements PlugInFilter {
+	ImagePlus imp; // Fenêtre contenant l'image de référence
+	int width; // Largeur de la fenêtre
+	int height; // Hauteur de la fenêtre
+	private static final int BLOCK_SIZE = 8;
+
+	// Initialisation du plugin
+	public int setup(String arg, ImagePlus imp) {
+		this.imp = imp;
+		return PlugInFilter.DOES_8G;
+	}
+
+	@Override
+	public void run(ImageProcessor ip) {
+		ImageProcessor fp = ip.duplicate().convertToFloat();
+
+		// Centrer les valeurs de niveaux de gris
+		fp.add(-128);
+		
+		// POUR CHAQUE [bloc 8x8]
+		for (int x = 0; x < fp.getWidth(); x += 8) {
+			for (int y = 0; y < fp.getHeight(); y += 8) {
+				fp.setRoi(x, y, BLOCK_SIZE, BLOCK_SIZE);
+				DCT2D.forwardDCT((FloatProcessor) fp);
+			}
+		}
+		
+		ImagePlus dct2d = new ImagePlus("DCT2D", fp);
+	}
+
+}

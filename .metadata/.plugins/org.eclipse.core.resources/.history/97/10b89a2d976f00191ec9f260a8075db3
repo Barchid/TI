@@ -1,0 +1,63 @@
+import ij.process.*; // Pour classe Float Processor
+import java.awt.Rectangle;
+
+abstract public class DCT2D {
+
+	// ---------------------------------------------------------------------------------
+	/**
+	 * Transformation DCT 2D directe (méthode de classe) utilisant la séparabilité
+	 * On applique sur la Region of interest définie auparavant !
+	 * 
+	 * @param fp Signal 2D d'entrée et de sortie (MxN) (FloatProcessor)
+	 */
+	public static void forwardDCT(FloatProcessor fp) {
+		// récupérer la ROI définie auparavant
+		Rectangle roi = fp.getRoi();
+
+		// Traiter les lignes
+		for (int y = roi.y; y < (roi.y + roi.height); y++) {
+			double[] line = fp.getLine(roi.x, y, roi.x + roi.width, y);
+			double[] lineDCT = DCT1D.forwardDCT(line);
+			for (int x = 0; x < lineDCT.length; x++) {
+				fp.putPixelValue(x, y, lineDCT[x]);
+			}
+		}
+
+		// Traiter les colonnes de l'image résultant du traitement des lignes
+		for (int x = roi.x; x < (roi.x + roi.width); x++) {
+			double[] col = fp.getLine(x, roi.y, x, roi.y + roi.height);
+			double[] colDCT = DCT1D.forwardDCT(col);
+			for (int y = 0; y < colDCT.length; y++) {
+				fp.putPixelValue(x, y, colDCT[y]);
+			}
+		}
+	}
+
+	// ---------------------------------------------------------------------------------
+	/**
+	 * Transformation DCT 2D inverse (méthode de classe)
+	 * 
+	 * @param fp Signal 2D d'entrée et de sortie (FloatProcessor)
+	 */
+	public static void inverseDCT(FloatProcessor fp) {
+		// Récupérer la ROI définie auparavant
+		Rectangle roi = fp.getRoi();
+		// Traiter les lignes
+		for (int y = roi.y; y < (roi.y + roi.height); y++) {
+			double[] lineDCT = fp.getLine(0, y, fp.getWidth(), y);
+			double[] line = DCT1D.inverseDCT(lineDCT);
+			for (int x = 0; x < line.length; x++) {
+				fp.putPixelValue(x, y, line[x]);
+			}
+		}
+
+		// Traiter les colonnes de l'image résultant du traitement des lignes
+		for (int x = roi.x; x < (roi.x + roi.width); x++) {
+			double[] colDCT = fp.getLine(x, 0, x, fp.getHeight());
+			double[] col = DCT1D.inverseDCT(colDCT);
+			for (int y = 0; y < col.length; y++) {
+				fp.putPixelValue(x, y, col[y]);
+			}
+		}
+	}
+}
